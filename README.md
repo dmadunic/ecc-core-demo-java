@@ -10,7 +10,7 @@ To build and run demo application simply run:
 
 This will fire up default bootRun task and start the demo application with dev profile active.
 
-To ensure everything is working navigate to [http://localhost:8080/api/hello](http://localhost:8080api/hello) in your browser.
+To ensure everything is working navigate to [http://localhost:8080/api/hello](http://localhost:8080/api/hello) in your browser.
 
 ## Building for production
 
@@ -39,6 +39,11 @@ Then, run a Sonar analysis:
 ```
 ./gradlew -Pprod clean check jacocoTestReport sonarqube
 ```
+
+## Swagger generated REST Api documentation
+If the **swagger** profile is active, swagger generated REST Api documentation is available at the following url:
+
+[http://localhost:8080/swagger-ui.html(http://localhost:8080/swagger-ui.html)
 
 ## Building (local) docker image [TODO]
 
