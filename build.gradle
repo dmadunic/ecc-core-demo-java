@@ -21,6 +21,9 @@ repositories {
 
 defaultTasks "bootRun"
 
+apply from: "gradle/docker.gradle"
+//apply from: "gradle/sonar.gradle"
+
 if (project.hasProperty("prod")) {
 	apply from: "gradle/profile_prod.gradle"
 } else {

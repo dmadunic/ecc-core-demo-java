@@ -3,7 +3,7 @@ jib {
         image = "adoptopenjdk:11-jre-hotspot"
     }
     to {
-        image = "ecc/core-poc-demo-java:${version}"
+        image = "ecc/core-demo-java:${version}"
     }
     container {
         entrypoint = ["bash", "-c", "./entrypoint.sh"]

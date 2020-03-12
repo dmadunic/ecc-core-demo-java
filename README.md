@@ -58,3 +58,10 @@ To build a Docker image of the demo application without Docker and push it direc
  ./gradlew -Pprod bootJar jib
 ```
 
+## Using Docker locally
+
+After building a Docker image and pushing it to local Docker daemon, you can start demo microservice by running:
+
+```
+docker-compose -f src/main/docker/app.yml up
+```
