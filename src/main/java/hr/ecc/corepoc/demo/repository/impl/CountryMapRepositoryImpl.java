@@ -5,9 +5,7 @@ import hr.ecc.corepoc.demo.repository.CountryRepository;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Simple inmemory Map implementation of Country repository.
@@ -25,8 +23,8 @@ public class CountryMapRepositoryImpl implements CountryRepository {
     }
 
     @Override
-    public Collection<Country> findAll() {
-        return map.values();
+    public List<Country> findAll() {
+        return new ArrayList(map.values());
     }
 
     @Override

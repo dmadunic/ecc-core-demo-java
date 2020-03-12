@@ -29,7 +29,7 @@ public class CountryMapRepositoryInitializer {
         initData();
     }
 
-    private void initData() {
+    public void initData() {
         long sid = 0;
         for (int i=0; i < COUNTRIES.length; i++) {
             sid++;

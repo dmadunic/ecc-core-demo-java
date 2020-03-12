@@ -3,6 +3,7 @@ package hr.ecc.corepoc.demo.service;
 import hr.ecc.corepoc.demo.domain.Country;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface CountryService {
@@ -20,7 +21,7 @@ public interface CountryService {
      *
      * @return the list of entities.
      */
-    Collection<Country> findAll();
+    List<Country> findAll();
 
 
     /**

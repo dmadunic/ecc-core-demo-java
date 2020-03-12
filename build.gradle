@@ -9,7 +9,7 @@ plugins {
 
 group = 'hr.ecc.corepoc'
 version = '0.0.1'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 jacoco {
 	toolVersion = "0.8.5"
@@ -49,4 +49,45 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	exclude "**/*IT*", "**/*IntTest*"
+
+	testLogging {
+		events 'FAILED', 'SKIPPED'
+	}
+	// uncomment if the tests reports are not generated
+	// ignoreFailures true
+	reports.html.enabled = false
 }
+
+task integrationTest(type: Test) {
+	useJUnitPlatform()
+	description = "Execute integration tests."
+	group = "verification"
+	include "**/*IT*", "**/*IntTest*"
+
+	testLogging {
+		events 'FAILED', 'SKIPPED'
+	}
+	// uncomment if the tests reports are not generated
+	// ignoreFailures true
+	reports.html.enabled = false
+}
+
+check.dependsOn integrationTest
+task testReport(type: TestReport) {
+	destinationDir = file("$buildDir/reports/tests")
+	reportOn test
+}
+
+task integrationTestReport(type: TestReport) {
+	destinationDir = file("$buildDir/reports/tests")
+	reportOn integrationTest
+}
+
+task cleanResources(type: Delete) {
+	delete "build/resources"
+}
+
+
+compileJava.dependsOn processResources
+processResources.dependsOn bootBuildInfo

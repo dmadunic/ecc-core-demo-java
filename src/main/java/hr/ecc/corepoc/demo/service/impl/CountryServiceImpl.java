@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -38,7 +39,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Country> findAll()throws DataAccessException {
+    public List<Country> findAll()throws DataAccessException {
         log.debug("Request to get all Countries");
         return countryRepository.findAll();
     }

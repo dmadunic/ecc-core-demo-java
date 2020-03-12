@@ -24,7 +24,7 @@ To ensure everything worked, run:
 
     java -jar build/libs/*.jar
 
-## Testing [TODO]
+## Testing
 
 To launch (all) demo application's tests, run:
 

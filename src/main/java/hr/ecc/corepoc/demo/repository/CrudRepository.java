@@ -1,6 +1,6 @@
 package hr.ecc.corepoc.demo.repository;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface describing base CRUD repository.
@@ -11,7 +11,7 @@ import java.util.Collection;
 public interface CrudRepository<T, ID> {
 
     T findById(ID id);
-    Collection<T> findAll();
+    List<T> findAll();
     T save(T object);
     void delete(T object);
     void deleteById(ID id);
