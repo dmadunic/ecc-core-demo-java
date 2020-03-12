@@ -58,6 +58,17 @@ To build a Docker image of the demo application without Docker and push it direc
  ./gradlew -Pprod bootJar jib
 ```
 
+To push docker image to specific docker registry as part of the CI step the following command can be used:
+
+```
+./gradlew jib -Pprod -Djib.to.image=$REGISTRY_URL/$IMAGE_TAG -Djib.to.auth.username=unused -Djib.to.auth.password=$DOCKER_REGISTRY_TOKEN --no-daemon
+```
+
+Thi assumes that the following environment variables are configured on CI system:
+* REGISTRY_URL
+* IMAGE_TAG
+* DOCKER_REGISTRY_TOKEN
+
 ## Using Docker locally
 
 After building a Docker image and pushing it to local Docker daemon, you can start demo microservice by running:
