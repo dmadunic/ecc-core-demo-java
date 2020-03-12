@@ -43,7 +43,7 @@ Then, run a Sonar analysis:
 ## Swagger generated REST Api documentation
 If the **swagger** profile is active, swagger generated REST Api documentation is available at the following url:
 
-[http://localhost:8080/swagger-ui.html(http://localhost:8080/swagger-ui.html)
+[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ## Building (local) docker image 
 

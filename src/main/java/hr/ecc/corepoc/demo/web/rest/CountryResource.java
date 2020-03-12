@@ -1,0 +1,112 @@
+package hr.ecc.corepoc.demo.web.rest;
+
+import hr.ecc.corepoc.demo.domain.Country;
+import hr.ecc.corepoc.demo.service.CountryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.Optional;
+
+/**
+ * REST controller for managing {@link hr.ecc.corepoc.demo.domain.Country}.
+ */
+@RestController
+@RequestMapping("/api")
+public class CountryResource {
+    private final Logger log = LoggerFactory.getLogger(CountryResource.class);
+
+    private final CountryService countryService;
+
+    @Autowired
+    public CountryResource(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
+    /**
+     * {@code POST  /countries} : Create a new country.
+     *
+     * @param country the country to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new country, or with status {@code 400 (Bad Request)} if the country has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/countries")
+    public ResponseEntity<Country> createCountry(@Valid @RequestBody Country country) throws URISyntaxException {
+        log.debug("REST request to save Country : {}", country);
+        if (country.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A new country cannot already have an ID");
+        }
+        Country result = countryService.save(country);
+        return ResponseEntity.created(new URI("/api/countries/" + result.getId()))
+                .body(result);
+    }
+
+    /**
+     * {@code PUT  /countries} : Updates an existing country.
+     *
+     * @param country the country to create.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated countryDTO,
+     * or with status {@code 400 (Bad Request)} if the country is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the country couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping("/countries")
+    public ResponseEntity<Country> updateCountry(@Valid @RequestBody Country country) throws URISyntaxException {
+        log.debug("REST request to update Country : {}", country);
+        if (country.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid id - null");
+        }
+        Country result = countryService.save(country);
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code GET  /countries} : get all the countries.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of countries in body.
+     */
+    @GetMapping("/countries")
+    public ResponseEntity<Collection<Country>> getAllCountries() {
+        log.debug("REST request to get ALL Countries");
+        Collection<Country> result = countryService.findAll();
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code GET  /countries/:id} : get the "id" country.
+     *
+     * @param id the id of the countryDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the countryDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/countries/{id}")
+    public ResponseEntity<Country> getCountry(@PathVariable Long id) {
+        log.debug("REST request to get Country : {}", id);
+        Optional<Country> country = countryService.findOne(id);
+        return wrapOrNotFound(country);
+    }
+
+    /**
+     * {@code DELETE  /countries/:id} : delete the "id" country.
+     *
+     * @param id the id of the country to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping("/countries/{id}")
+    public ResponseEntity<Void> deleteCountry(@PathVariable Long id) {
+        log.debug("REST request to delete Country : {}", id);
+        countryService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    protected <X> ResponseEntity<X> wrapOrNotFound(Optional<X> maybeResponse) {
+        return maybeResponse.map(response -> ResponseEntity.ok().body(response)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+}
