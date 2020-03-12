@@ -1,4 +1,5 @@
 
+def profiles = "prod"
 if (project.hasProperty("swagger")) {
     profiles += ",swagger"
 }
