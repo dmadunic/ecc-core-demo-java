@@ -1,0 +1,10 @@
+
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version "${spring_boot_version}"
+        id 'com.google.cloud.tools.jib' version "${jib_plugin_version}"
+        id 'org.sonarqube' version "${sonarqube_plugin_version}"
+    }
+}
+rootProject.name = 'ecc-core-demo-java'
+
