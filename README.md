@@ -45,7 +45,7 @@ If the **swagger** profile is active, swagger generated REST Api documentation i
 
 [http://localhost:8080/swagger-ui.html(http://localhost:8080/swagger-ui.html)
 
-## Building (local) docker image [TODO]
+## Building (local) docker image 
 
 To build a Docker image of the demo application using Jib connecting to the local Docker daemon, type:
 
