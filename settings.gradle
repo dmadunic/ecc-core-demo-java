@@ -4,6 +4,7 @@ pluginManagement {
         id 'org.springframework.boot' version "${spring_boot_version}"
         id 'com.google.cloud.tools.jib' version "${jib_plugin_version}"
         id 'org.sonarqube' version "${sonarqube_plugin_version}"
+        id "io.spring.nohttp" version "${spring_no_http_plugin_version}"
     }
 }
 rootProject.name = 'ecc-core-demo-java'

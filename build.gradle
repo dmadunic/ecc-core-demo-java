@@ -5,6 +5,7 @@ plugins {
 	id "jacoco"
 	id "org.sonarqube"
 	id 'java'
+	id "io.spring.nohttp"
 }
 
 group = 'hr.ecc.corepoc'
@@ -28,6 +29,16 @@ if (project.hasProperty("prod")) {
 
 jacoco {
 	toolVersion = "0.8.5"
+}
+
+checkstyle {
+	toolVersion "${checkstyle_version}"
+	configFile file("checkstyle.xml")
+	checkstyleTest.enabled = false
+}
+
+nohttp {
+	source.include "build.gradle", "README.md"
 }
 
 springBoot {
