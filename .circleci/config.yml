@@ -27,13 +27,12 @@ jobs:
       - store_test_results:
           # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path:
-            - build/test-results/test
-      - store_test_results:
-          path:
-            - build/test-results/integrationTest
+            - build/test-results
       - store_artifacts: # Upload test results for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          paths:
+          path:
             - build/test-results/test
+      - store_artifacts: # Upload test results for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path:
             - build/test-results/integrationTest
           when: always
       - run:
