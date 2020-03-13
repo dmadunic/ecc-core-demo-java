@@ -37,6 +37,9 @@ jobs:
           command: ./gradlew -Pprod bootJar
       - store_artifacts:
           path: build/libs
+      - run:
+          name: Build and push docker image
+          command: ./gradlew jib -Pprod -Djib.to.image=$REGISTRY_URL/$IMAGE_TAG -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PWD
 workflows:
   version: 2
   workflow:
