@@ -11,10 +11,6 @@ group = 'hr.ecc.corepoc'
 version = '0.0.1'
 sourceCompatibility = '11'
 
-jacoco {
-	toolVersion = "0.8.5"
-}
-
 repositories {
 	mavenCentral()
 }
@@ -28,6 +24,10 @@ if (project.hasProperty("prod")) {
 	apply from: "gradle/profile_prod.gradle"
 } else {
 	apply from: "gradle/profile_dev.gradle"
+}
+
+jacoco {
+	toolVersion = "0.8.5"
 }
 
 springBoot {
@@ -88,6 +88,15 @@ task cleanResources(type: Delete) {
 	delete "build/resources"
 }
 
+jacocoTestReport {
+	executionData tasks.withType(Test)
+	classDirectories.from = files(sourceSets.main.output.classesDirs)
+	sourceDirectories.from = files(sourceSets.main.java.srcDirs)
+
+	reports {
+		xml.enabled = true
+	}
+}
 
 compileJava.dependsOn processResources
 processResources.dependsOn bootBuildInfo
