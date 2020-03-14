@@ -15,7 +15,7 @@ jobs:
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
       - run:
           name: Run tests and integration tests
-          command: ./gradlew test integrationTest
+          command: ./gradlew compile -x test -x integrationTest
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -24,6 +24,24 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build 
+  test:
+    environment:
+      # Configure the JVM and Gradle to avoid OOM errors
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker: # run the steps with Docker
+      - image: circleci/openjdk:11.0.3-jdk-stretch
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+            name: Run tests and integration tests
+            command: ./gradlew test integrationTest
       # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
       - store_test_results:
           path: build/test-results
@@ -32,6 +50,17 @@ jobs:
       - store_artifacts:
           path: build/test-results
           when: always
+  docker_build:
+    environment:
+      # Configure the JVM and Gradle to avoid OOM errors
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker: # run the steps with Docker
+      - image: circleci/openjdk:11.0.3-jdk-stretch
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Build SpringBoot jar
           command: ./gradlew -Pprod bootJar
@@ -40,8 +69,16 @@ jobs:
       - run:
           name: Build and push docker image
           command: ./gradlew jib -Pprod -PimageName=$IMAGE_NAME -PdockerRegistryUrl=$DOCKER_REGISTRY_URL -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PWD
+          # TODO: tag image as latest
 workflows:
   version: 2
   workflow:
     jobs:
       - build
+      - test:
+        requires:
+          - build
+      - docker_build:
+        requires:
+          - build
+          - test
