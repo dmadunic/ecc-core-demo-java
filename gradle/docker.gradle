@@ -1,9 +1,20 @@
+def imageName = 'ecc/core-demo-java'
+def dockerRegistryUrl = ''
+
+if (project.hasProperty("imageName")) {
+    imageName = project.getProperty("imageName");
+}
+
+if (project.hasProperty("dockerRegistryUrl")) {
+    dockerRegistryUrl = project.getProperty("dockerRegistryUrl");
+}
+
 jib {
     from {
         image = "adoptopenjdk:11-jre-hotspot"
     }
     to {
-        image = "ecc/core-demo-java:${version}"
+        image = "${dockerRegistryUrl}${imageName}:${version}"
     }
     container {
         entrypoint = ["bash", "-c", "./entrypoint.sh"]
