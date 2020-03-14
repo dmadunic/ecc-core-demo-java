@@ -14,8 +14,8 @@ jobs:
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle" }}
       - run:
-          name: Run tests and integration tests
-          command: ./gradlew compile -x test -x integrationTest
+          name: Compile all Java classes
+          command: ./gradlew compileJava compileTestJava
       - save_cache:
           paths:
             - ~/.gradle/wrapper
