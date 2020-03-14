@@ -39,7 +39,7 @@ jobs:
           path: build/libs
       - run:
           name: Build and push docker image
-          command: ./gradlew jib -Pprod -PimageName=$IMAGE_NAME -PdockerRegistryUrl=$REGISTRY_URL -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PWD
+          command: ./gradlew jib -Pprod -PimageName=$IMAGE_NAME -PdockerRegistryUrl=$DOCKER_REGISTRY_URL -Djib.to.auth.username=$DOCKER_REGISTRY_USER -Djib.to.auth.password=$DOCKER_REGISTRY_PWD
 workflows:
   version: 2
   workflow:
